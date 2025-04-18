@@ -88,25 +88,28 @@ services:
     depends_on:
       order-service:
         condition: service_healthy
-  # ai-service:
-  #   build: ../ai-service
-  #   container_name: 'ai-service'
-  #   restart: always
-  #   ports:
-  #     - 5001:5001
-  #   healthcheck:
-  #     test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://ai-service:5001/health"]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 5
-  #   environment:
-  #     - USE_AZURE_OPENAI=True # set to False if you are not using Azure OpenAI
-  #     - AZURE_OPENAI_DEPLOYMENT_NAME= # required if using Azure OpenAI
-  #     - AZURE_OPENAI_ENDPOINT= # required if using Azure OpenAI
-  #     - OPENAI_API_KEY= # always required
-  #     - OPENAI_ORG_ID= # required if using OpenAI
-  #   networks:
-  #     - backend_services
+  ai-service:
+    build: ../ai-service
+    container_name: 'ai-service'
+    restart: always
+    ports:
+      - 5001:5001
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://ai-service:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    environment:
+      - USE_AZURE_OPENAI=True
+      - USE_AZURE_AD=False
+      - AZURE_OPENAI_API_VERSION=2024-02-15-preview
+      - AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4
+      - AZURE_OPENAI_ENDPOINT=https://akin0-m9m4xnhv-swedencentral.cognitiveservices.azure.com/
+      - AZURE_OPENAI_DALLE_ENDPOINT=https://akin0-m9m4xnhv-swedencentral.cognitiveservices.azure.com/
+      - AZURE_OPENAI_DALLE_DEPLOYMENT_NAME=dall-e-3
+      - OPENAI_API_KEY=BFb9ZlcY4wrBuQHEBrUfcYgZuX8rEcyysg5g1rTY5ZFzwNbScIHZJQQJ99BDACfhMk5XJ3w3AAAAACOG6eAN
+    networks:
+      - backend_services
 networks:
   backend_services:
     driver: bridge
