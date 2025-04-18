@@ -76,20 +76,20 @@ services:
       retries: 5
     networks:
       - backend_services
-  virtual-customer:
-    image: ramymohamed/virtual-customer-l8:latest
-    container_name: 'virtual-customer'
-    restart: always
-    environment:
-      - ORDER_SERVICE_URL=http://order-service:3000/
-      - ORDERS_PER_HOUR=3600
-    networks:
-      - backend_services
-    depends_on:
-      order-service:
-        condition: service_healthy
+  # virtual-customer:
+  #   image: ramymohamed/virtual-customer-l8:latest
+  #   container_name: 'virtual-customer'
+  #   restart: always
+  #   environment:
+  #     - ORDER_SERVICE_URL=http://order-service:3000/
+  #     - ORDERS_PER_HOUR=3600
+  #   networks:
+  #     - backend_services
+  #   depends_on:
+  #     order-service:
+  #       condition: service_healthy
   ai-service:
-    build: ../ai-service
+    image: lolaakin/ai-service:latest
     container_name: 'ai-service'
     restart: always
     ports:
